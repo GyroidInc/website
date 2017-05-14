@@ -50,9 +50,12 @@ p {
     border: 1px solid #fff !important;
 }
 
+#gyroid {
+    padding-bottom: 10px;
+}
+
 
 /*NAVIGATION*/
-
 .navbar {
     background-color: #222222 !important;
     text-transform: uppercase;
@@ -167,7 +170,7 @@ p {
 }
 
 
-/*PRICING*/
+/*DOMAINS*/
 
 .pricing {
     padding: 50px 0 80px;
@@ -310,6 +313,13 @@ img.center {
     color: #fff !important;
 }
 
+.btn-group-justified{
+    width: 50%;
+}
+
+.contact textarea {
+    height: 188px;
+}
 
 /*FOOTER*/
 
@@ -342,4 +352,12 @@ img.center {
 .footer .btn {
     padding: 10px 5px 10px;
     margin: -3px 0 0 5px;
+}
+
+a {
+    color: #cccccc;
+}
+
+.footer .not-active {
+    cursor: not-allowed;
 }
