@@ -36,8 +36,8 @@
 
                 <!-- Gyroid icon -->
                 <a href="#header" class="navbar-brand">
-                    <img src="images/gyroid.png" id="gyroid" align="left" width="32" height="32">
-                    <span hspace="10" style="text-transform: lowercase; margin-top:10px; padding-left:10px;">
+                    <img src="images/gyroid.png" id="gyroid" align="left" width="38" height="38">
+                    <span style="text-transform: lowercase; margin-top:10px; padding-left:10px;">
                         gyroid.io
                     </span>
                 </a>
@@ -163,61 +163,37 @@
                     <div class="col-lg-3 col-md-3 wow flipInY" data-wow-delay="0.8s">
                         <div class="packages">
                             <h4>Government</h4>
-                            <h1>9.99</h1>
-                            <b>Monthly</b>
-                            <p>Lorem Ipsum passages, and more recently with desktop</p>
                             <hr>
-                            <li>100 Users</li>
-                            <li>SSL Certificate</li>
-                            <li>Online Support</li>
-                            <li>300GB Disckspace</li>
-                            <li>100 Email Address</li>
-                            <li>MySQL Database</li>
+                            <li>What is the most effective way to allocate expensive or limited resources?</li>
+                            <li>Where will city infrastructure need repair?</li>
+                            <li>What are the best ways to help low-income and at-risk populations?</li> 
                         </div>
                     </div>
                     <div class="col-lg-3 col-md-3 wow flipInY" data-wow-delay="1.2s">
                         <div class="packages">
                             <h4>NGO</h4>
-                            <h1>19.99</h1>
-                            <b>Monthly</b>
-                            <p>Lorem Ipsum passages, and more recently with desktop</p>
                             <hr>
-                            <li>100 Users</li>
-                            <li>SSL Certificate</li>
-                            <li>Online Support</li>
-                            <li>300GB Disckspace</li>
-                            <li>100 Email Address</li>
-                            <li>MySQL Database</li>
+                            <li>What are the best methods of engaging donors and supporters?</li>
+                            <li>Which projects are most likely to succeed under different conditions?</li>
+                            <li>How can new technologies solve hard problems?</li>
                         </div>
                     </div>
                     <div class="col-lg-3 col-md-3 wow flipInY" data-wow-delay="1.6s">
                         <div class="packages">
                             <h4>Corporate</h4>
-                            <h1>29.99</h1>
-                            <b>Monthly</b>
-                            <p>Lorem Ipsum passages, and more recently with desktop</p>
                             <hr>
-                            <li>100 Users</li>
-                            <li>SSL Certificate</li>
-                            <li>Online Support</li>
-                            <li>300GB Disckspace</li>
-                            <li>100 Email Address</li>
-                            <li>MySQL Database</li>
+                            <li>How can we develop enterprise solutions that increase productivity?</li>
+                            <li>Can we discover hidden trends in emerging market data?</li>
+                            <li>What software gaps are there to fill with custom apps?</li>
                         </div>
                     </div>
                     <div class="col-lg-3 col-md-3 wow flipInY" data-wow-delay="2s">
                         <div class="packages">
                             <h4>Humanitarian</h4>
-                            <h1>39.99</h1>
-                            <b>Monthly</b>
-                            <p>Lorem Ipsum passages, and more recently with desktop</p>
                             <hr>
-                            <li>100 Users</li>
-                            <li>SSL Certificate</li>
-                            <li>Online Support</li>
-                            <li>300GB Disckspace</li>
-                            <li>100 Email Address</li>
-                            <li>MySQL Database</li>
+                            <li>How can we do the most good for the most people?</li>
+                            <li>How can local chapters be most effective while requiring assistance?</li>
+                            <li>How can we spend less time fundraising and more time making an impact?</li>
                         </div>
                     </div>
                 </div>
@@ -304,9 +280,11 @@
                     </div>  
                     
                     <div class="btn-group btn-group-justified center-block">
-                        <button id="submitMessage" class="btn btn-lg wow fadeInUp" data-wow-delay="2.4s">
-                            Submit Your Message
-                        </button>
+                        <a download="test.txt">
+                            <button id="submitMessage" class="btn btn-lg wow fadeInUp" data-wow-delay="2.4s">
+                                Submit Your Message
+                            </button>
+                        </a>    
                     </div>
 
                 </div>
@@ -367,7 +345,7 @@
                         <br>
 
                         <!-- Subscribe for updates -->
-                        <input type="email" placeholder="Subscribe For Updates"><button id="subscribe" class="btn btn-success">Subscribe</button>
+                        <input id="subscribe-email" type="email" placeholder="Subscribe For Updates"><button id="subscribe" class="btn btn-success">Subscribe</button>
                     </div>
                 </div>
             </div>
@@ -386,12 +364,26 @@
         <!-- Custom javascript code -->
         <script>
 
+        // Upload user contact info to S3 Bucket
+        function uploadToS3Bucket(text, unique_id) {
+
+                // Path to bucket
+                var uploadPath = 'http://contacts.json.s3.amazonaws.com/' + unique_id + ".json";
+
+                // Ajax request
+                $.ajax({
+                    type: "PUT",
+                    url: uploadPath,
+                    dataType: 'json',
+                    async: false,
+                    data: JSON.stringify({"text": text})
+                });
+            }
+
             // Submit Message Button
             $("#submitMessage").click(function() {
-                
                 // Grab input values
                 var name = $('#contact-name').val();
-                console.log(name.length)
                 if (name.length === 0) {
                     alert("Please enter your name");
                     return
@@ -404,6 +396,9 @@
                 }
 
                 var phone = $('#contact-phone').val();
+                if (phone.length === 0) {
+                    phone = "N/A";
+                }
 
                 var msg = $('#contact-msg').val();
                 if (msg.length === 0) {
@@ -411,9 +406,12 @@
                     return
                 }
 
+                // Put all info together into one string and download
+                var user_msg = "Name: " + name + ", Email: " + email + ", Phone: " + phone + ", Message: " + msg;
+                uploadToS3Bucket(user_msg, "contact_" + name.replace(/ /g,''));
+
                 // Message to user
                 alert("Hi " + name + ",\n\nThanks for the message -- we will contact you soon!\n-Steve, Wade, Robert");
-
             });
 
             // Linkedin
@@ -438,7 +436,17 @@
 
             // Subscribe button -- ADD THIS
             $("#subscribe").click(function() {
-                alert("ADD FUNCTIONALITY");
+                var email = $("#subscribe-email").val();
+                if (email.length === 0) {
+                    alert("Please enter your email address to subscribe");
+                    return;
+                }
+
+                // Upload to S3 bucket
+                uploadToS3Bucket(email, "subscribe_" + email);
+
+                // Message to user
+                alert("Hi " + email + ",\n\nThanks for subscribing to our mailing list!\n-Steve, Wade, Robert");
             });
 
         </script>
