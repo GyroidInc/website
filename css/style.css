@@ -51,12 +51,15 @@ p {
 }
 
 #gyroid {
-    position: relative; /* Declared position allows for location changes */
-    top: -9px; /* Moves the image 2px closer to the top of the page */
+    position: relative;
+    /* Declared position allows for location changes */
+    top: -9px;
+    /* Moves the image 2px closer to the top of the page */
 }
 
 
 /*NAVIGATION*/
+
 .navbar {
     background-color: #222222 !important;
     text-transform: uppercase;
@@ -314,13 +317,10 @@ img.center {
     color: #fff !important;
 }
 
-.btn-group-justified{
-    width: 50%;
-}
-
 .contact textarea {
     height: 188px;
 }
+
 
 /*FOOTER*/
 
