@@ -48,11 +48,6 @@ function uploadToS3Bucket(text, unique_id) {
 		alert("Hi " + name + ",\n\nThanks for the message -- we will contact you soon!\n-Steve, Wade, Robert");
 	});
 
-	// Linkedin
-	$("#Linkedin").click(function() {
-		alert("We are still working on our Linkedin profile!");
-	});
-
 	// Youtube
 	$("#Youtube").click(function() {
 		alert("We are slowly but surely working on our Youtube channel!");
